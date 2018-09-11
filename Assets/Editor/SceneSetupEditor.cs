@@ -11,7 +11,11 @@ public class SceneSetupEditor : Editor {
 		SceneSetup sceneSetup = (SceneSetup)target;
 		if(GUILayout.Button("Copy Scene"))
 		{
-			sceneSetup.NewScene();
+			SceneCounter sceneCounter = Resources.Load<SceneCounter>("SceneCounter");
+			sceneSetup.NewScene(sceneCounter.GetSceneNumber());
+			EditorUtility.SetDirty(sceneCounter);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
 		}
 	}
 }

@@ -5,13 +5,8 @@ using UnityEngine;
 
 public class SceneSetup : MonoBehaviour {
 
-	int number = 0;
-
-	public void NewScene()
+	public void NewScene(int number)
 	{
 		FileUtil.CopyFileOrDirectory("Assets/Scenes/Scene.unity", "Assets/Scenes/Scene" + number + ".unity");
-		AssetDatabase.Refresh();
-		number++;
 	}
-
 }
