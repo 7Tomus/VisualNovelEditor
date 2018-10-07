@@ -7,9 +7,9 @@ public class SceneSetupEditor : Editor {
 	public override void OnInspectorGUI()
 	{
 		DrawDefaultInspector();
-
+		
 		SceneSetup sceneSetup = (SceneSetup)target;
-		if(GUILayout.Button("Copy Scene"))
+		if(GUILayout.Button("New Scene"))
 		{
 			SceneCounter sceneCounter = Resources.Load<SceneCounter>("SceneCounter");
 			sceneSetup.NewScene(sceneCounter.GetSceneNumber());
