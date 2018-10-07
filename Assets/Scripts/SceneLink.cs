@@ -4,6 +4,6 @@ using UnityEngine;
 
 public struct SceneLink {
 
-	public int previousScene, currentScene;
+	public int previousScene;
 	public List<int> nextScenes;
 }

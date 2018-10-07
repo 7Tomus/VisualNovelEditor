@@ -6,13 +6,13 @@ using UnityEngine;
 public class SceneLinker : ScriptableObject
 {
 	#region Variables
-	private Dictionary<int, List<int>> sceneLinkChain;
+	private Dictionary<int, SceneLink> sceneLinkChain;
 	#endregion
 
 	#region PublicMethods
 	public void NewSceneLink(int currentSceneNumber)
 	{
-		List<int> sceneLinks = new List<int>();
+		SceneLink sceneLinks = new SceneLink();
 
 		if(sceneLinkChain.TryGetValue(currentSceneNumber, out sceneLinks))
 		{
@@ -20,8 +20,9 @@ public class SceneLinker : ScriptableObject
 		}
 		else
 		{
-			List<int> sceneLink = new List<int>();
-			sceneLink.Add(currentSceneNumber + 1);
+			SceneLink sceneLink = new SceneLink();
+			sceneLink.nextScenes.Add(currentSceneNumber + 1);
+			sceneLink.previousScene = currentSceneNumber - 1;
 			sceneLinkChain.Add(currentSceneNumber, sceneLink);
 		}
 	}
