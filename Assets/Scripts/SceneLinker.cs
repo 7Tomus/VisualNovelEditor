@@ -10,20 +10,26 @@ public class SceneLinker : ScriptableObject
 	#endregion
 
 	#region PublicMethods
-	public void NewSceneLink(int currentSceneNumber)
+	public void CreateNewScene(int currentSceneNumber)
 	{
-		SceneLink sceneLinks = new SceneLink();
+		SceneLink currentSceneLinks = new SceneLink();
+		SceneLink nextSceneLinks = new SceneLink();
+		SceneCounter sceneCounter = Resources.Load<SceneCounter>("SceneCounter");
 
-		if(sceneLinkChain.TryGetValue(currentSceneNumber, out sceneLinks))
+		if(sceneLinkChain.TryGetValue(currentSceneNumber, out currentSceneLinks))
 		{
-			Debug.Log("Scene already has a child");
+			//FILL CURRENT SCENE LINK AND NEXT SCENE LINK
+			int freshSceneNumber = sceneCounter.GetFreshSceneNumber();
+
+			SceneLink sceneLink = new SceneLink();
+
+			sceneLink.nextScenes.Add(sceneCounter.GetFreshSceneNumber());
+			sceneLink.previousScenes.Add(currentSceneNumber - 1);
+			sceneLinkChain.Add(currentSceneNumber, sceneLink);
 		}
 		else
 		{
-			SceneLink sceneLink = new SceneLink();
-			sceneLink.nextScenes.Add(currentSceneNumber + 1);
-			sceneLink.previousScene = currentSceneNumber - 1;
-			sceneLinkChain.Add(currentSceneNumber, sceneLink);
+			Debug.LogWarning("Current Scene is not inside scene container (◕︿◕✿)");
 		}
 	}
 	#endregion

@@ -10,7 +10,7 @@ public class SceneCounter : ScriptableObject
 	#endregion
 
 	#region PublicMethods
-	public int GetSceneNumber()
+	public int GetFreshSceneNumber()
 	{
 		sceneNumber++;
 		return sceneNumber;

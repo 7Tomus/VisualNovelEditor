@@ -12,15 +12,20 @@ public class SceneSetupEditor : Editor {
 		linklist.Add(1);
 		linklist.Add(2);
 		linklist.Add(3);
-
 		List<int> nextlinklist = new List<int>();
 		nextlinklist.Add(1);
+		List<int> previousList = new List<int>();
+		previousList.Add(1);
 
 		GUILayout.BeginHorizontal();
-		if(GUILayout.Button("Previous Scene"))
+		foreach(int i in previousList)
 		{
+			if(GUILayout.Button("Previous Scene" + i))
+			{
 
+			}
 		}
+
 		GUILayout.BeginVertical();
 		foreach(int i in linklist)
 		{
@@ -38,12 +43,12 @@ public class SceneSetupEditor : Editor {
 				nextlinklist.Add(i + 1); //TODO
 			}
 		}
-		GUILayout.Space(20);
+		GUILayout.Space(200);
 		SceneSetup sceneSetup = (SceneSetup)target;
 		if(GUILayout.Button("New Scene"))
 		{
 			SceneCounter sceneCounter = Resources.Load<SceneCounter>("SceneCounter");
-			sceneSetup.NewScene(sceneCounter.GetSceneNumber());
+			sceneSetup.NewScene(sceneCounter.GetFreshSceneNumber()); //CURRENT SCENE NOT NEXT ONE
 			EditorUtility.SetDirty(sceneCounter);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
