@@ -38,4 +38,13 @@ public class SceneLinker : ScriptableObject
 		return freshSceneNumber;
 	}
 	#endregion
+
+	#region Structs
+	public struct SceneLink
+	{
+		public List<int> previousScenes;
+		public List<int> nextScenes;
+	}
+	#endregion
+
 }
