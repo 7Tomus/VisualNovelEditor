@@ -2,12 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEditor;
-using UnityEngine.SceneManagement;
 
+[CreateAssetMenu]
 public class SceneLinkChain : ScriptableObject {
 
 	#region Variables
-	public Dictionary<int, SceneLinks> linkChain;
+	public Dictionary<int, SceneLinks> linkChain = new Dictionary<int, SceneLinks>();
 	#endregion
 
 	#region PublicMethods
@@ -24,15 +24,9 @@ public class SceneLinkChain : ScriptableObject {
 
 		FileUtil.CopyFileOrDirectory("Resources/Scenes/Scene" + currentSceneNumber, "Resources/Scenes/Scene" + newSceneNumber);
 		GameObject newScene = Resources.Load<GameObject>("Resources/Scenes/Scene" + newSceneNumber);
-		newScene.GetComponent<SceneInfo>().sceneNumber = newSceneNumber;
+		newScene.GetComponent<SceneNumber>().sceneNumber = newSceneNumber;
 	}
 	#endregion
 
-	#region Structs
-	public struct SceneLinks
-	{
-		public int previousScene;
-		public int nextScene;
-	}
-	#endregion
+
 }

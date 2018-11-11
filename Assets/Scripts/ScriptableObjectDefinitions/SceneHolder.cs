@@ -7,13 +7,16 @@ using UnityEngine.SceneManagement;
 public class SceneHolder: ScriptableObject
 {
 	#region Variables
+	public int lastSceneNumber = 0;
 	public List<GameObject> sceneList;
 	#endregion
 
 	#region PublicMethods
 	public int GetNewSceneNumber()
 	{
-		return SearchForHighestSceneNumber() + 1;
+		lastSceneNumber++;
+		return lastSceneNumber;
+		//return SearchForHighestSceneNumber() + 1;
 	}
 	#endregion
 
@@ -23,7 +26,7 @@ public class SceneHolder: ScriptableObject
 		int highestSceneNumber = 0;
 		foreach(GameObject scene in sceneList)
 		{
-			SceneInfo sceneInfo = scene.GetComponent<SceneInfo>();
+			SceneNumber sceneInfo = scene.GetComponent<SceneNumber>();
 			if(sceneInfo != null && sceneInfo.sceneNumber > highestSceneNumber)
 			{
 				highestSceneNumber = sceneInfo.sceneNumber;
