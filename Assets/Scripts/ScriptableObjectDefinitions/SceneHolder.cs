@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-[CreateAssetMenu]
+[CreateAssetMenu(fileName = "SceneHolder")]
 public class SceneHolder: ScriptableObject
 {
 	#region Variables

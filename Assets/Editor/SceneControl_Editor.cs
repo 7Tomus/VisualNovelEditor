@@ -10,33 +10,54 @@ public class SceneControl_Editor : Editor
 	private bool refreshSceneData = true;
 	private int currentSceneNumber;
 	private SceneLinks currentSceneLinks = new SceneLinks();
+	SceneLinkChain sceneLinkChain;
 	#endregion
 
 	public override void OnInspectorGUI()
 	{
+		sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
 		if(refreshSceneData)
 		{
-			SceneLinkChain sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
+			
 			currentSceneNumber = FindObjectOfType<SceneNumber>().sceneNumber;
 			if(sceneLinkChain.linkChain.ContainsKey(currentSceneNumber))
 			{
 				currentSceneLinks = sceneLinkChain.linkChain[currentSceneNumber];
 			}
 			refreshSceneData = false;
-			Debug.Log(currentSceneLinks.nextScene);
-			Debug.Log(currentSceneLinks.previousScene);
+			Debug.Log("nextScene: " + currentSceneLinks.nextScene);
+			Debug.Log("previousScene: " + currentSceneLinks.previousScene);
 		}
 
 		base.OnInspectorGUI();
 		GUILayout.BeginHorizontal();
 		if(currentSceneNumber == 0 && currentSceneLinks.nextScene != 0)
 		{
-
+			if(GUILayout.Button("Next Scene [" + currentSceneLinks.nextScene + "]"))
+			{
+			}
 		}
-		else
+		else if(currentSceneNumber != 0)
 		{
-			//TODO ADD BUTTONS
+			if(GUILayout.Button("Previous Scene[" + currentSceneLinks.previousScene + "]"))
+			{
+			}
+			if(currentSceneLinks.nextScene != 0)
+			{
+				if(GUILayout.Button("Next Scene[" + currentSceneLinks.nextScene + "]"))
+				{
+				}
+			}
 		}
+		if(GUILayout.Button("New Scene"))
+		{
+			sceneLinkChain.CreateNewScene(currentSceneNumber);
+			EditorUtility.SetDirty(sceneLinkChain);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+			refreshSceneData = true;			
+		}
+
 		GUILayout.EndHorizontal();
 	}
 }
