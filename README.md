@@ -4,4 +4,5 @@ TODO:
     - - [ ] without branching - WIP
     - - [ ] with branching
 3. - [ ] Core scene visuals
+4. - [ ] Twitch chat bot
 
