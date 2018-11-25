@@ -24,6 +24,8 @@ public class SceneControl_Editor : Editor
 			{
 				currentSceneLinks = sceneLinkChain.linkChain[currentSceneNumber];
 			}
+			Debug.Log("Next" + currentSceneLinks.nextScene);
+			Debug.Log("Previous" + currentSceneLinks.previousScene);
 			refreshSceneData = false;
 		}
 
@@ -33,17 +35,23 @@ public class SceneControl_Editor : Editor
 		{
 			if(GUILayout.Button("Next Scene [" + currentSceneLinks.nextScene + "]"))
 			{
+				sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScene);
+				refreshSceneData = true;
 			}
 		}
 		else if(currentSceneNumber != 0)
 		{
 			if(GUILayout.Button("Previous Scene[" + currentSceneLinks.previousScene + "]"))
 			{
+				sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.previousScene);
+				refreshSceneData = true;
 			}
 			if(currentSceneLinks.nextScene != 0)
 			{
 				if(GUILayout.Button("Next Scene[" + currentSceneLinks.nextScene + "]"))
 				{
+					sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScene);
+					refreshSceneData = true;
 				}
 			}
 		}
@@ -61,6 +69,7 @@ public class SceneControl_Editor : Editor
 			EditorUtility.SetDirty(sceneLinkChain);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
+			currentSceneNumber = 0;
 			refreshSceneData = true;
 		}
 

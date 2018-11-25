@@ -27,23 +27,24 @@ public class SceneLinkChain : ScriptableObject {
 		newSceneLink.previousScene = currentSceneNumber;
 		linkChain.Add(newSceneNumber, newSceneLink);
 
-		Debug.Log("Scene" + currentSceneNumber + ".prefab");
 		AssetDatabase.CopyAsset("Assets/Resources/Scenes/Scene" + currentSceneNumber + ".prefab", "Assets/Resources/Scenes/Scene" + newSceneNumber + ".prefab");
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
 		GameObject newScene = Resources.Load<GameObject>("Scenes/Scene" + newSceneNumber);
 		newScene.GetComponent<SceneNumber>().sceneNumber = newSceneNumber;
 		GameObject currentScene = GameObject.Find("Scene" + currentSceneNumber);
-		if(currentScene == null)
-		{
-			currentScene = GameObject.Find("Scene" + currentSceneNumber + "(Clone)");
-		};
 		DestroyImmediate(currentScene);
 		PrefabUtility.InstantiatePrefab(newScene);
 		EditorUtility.SetDirty(sceneHolder);
 		linkChainLength = linkChain.Count;
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
+	}
+
+	public void GoToScene(int currentSceneNumber, int toSceneNumber)
+	{
+		DestroyImmediate(GameObject.Find("Scene" + currentSceneNumber));
+		PrefabUtility.InstantiatePrefab(Resources.Load<GameObject>("Scenes/Scene" + toSceneNumber));
 	}
 
 
