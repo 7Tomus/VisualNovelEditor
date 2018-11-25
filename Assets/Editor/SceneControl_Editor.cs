@@ -25,8 +25,6 @@ public class SceneControl_Editor : Editor
 				currentSceneLinks = sceneLinkChain.linkChain[currentSceneNumber];
 			}
 			refreshSceneData = false;
-			Debug.Log("nextScene: " + currentSceneLinks.nextScene);
-			Debug.Log("previousScene: " + currentSceneLinks.previousScene);
 		}
 
 		base.OnInspectorGUI();

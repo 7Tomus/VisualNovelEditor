@@ -39,12 +39,14 @@ public class SceneLinkChain : ScriptableObject {
 			currentScene = GameObject.Find("Scene" + currentSceneNumber + "(Clone)");
 		};
 		DestroyImmediate(currentScene);
-		Instantiate(newScene);
+		PrefabUtility.InstantiatePrefab(newScene);
 		EditorUtility.SetDirty(sceneHolder);
 		linkChainLength = linkChain.Count;
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
 	}
+
+
 
 	public void ResetLinkChain()
 	{
