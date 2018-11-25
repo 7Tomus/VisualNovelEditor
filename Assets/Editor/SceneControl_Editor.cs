@@ -57,6 +57,14 @@ public class SceneControl_Editor : Editor
 			AssetDatabase.Refresh();
 			refreshSceneData = true;			
 		}
+		if(GUILayout.Button("ResetAll"))
+		{
+			sceneLinkChain.ResetLinkChain();
+			EditorUtility.SetDirty(sceneLinkChain);
+			AssetDatabase.SaveAssets();
+			AssetDatabase.Refresh();
+			refreshSceneData = true;
+		}
 
 		GUILayout.EndHorizontal();
 	}

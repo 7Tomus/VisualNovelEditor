@@ -9,6 +9,7 @@ public class SceneLinkChain : ScriptableObject {
 
 	#region Variables
 	public Dictionary<int, SceneLinks> linkChain = new Dictionary<int, SceneLinks>();
+	public int linkChainLength = 0;
 	#endregion
 
 	#region PublicMethods
@@ -26,34 +27,29 @@ public class SceneLinkChain : ScriptableObject {
 		newSceneLink.previousScene = currentSceneNumber;
 		linkChain.Add(newSceneNumber, newSceneLink);
 
-		//GameObject currentScene = GameObject.Find("Scene" + currentSceneNumber);
-		//var currentScene = Resources.Load<GameObject>("Scenes/Scene" + currentSceneNumber);
-		//var clonedAsset = Instantiate(currentScene);
-		try
-		{
-			//PrefabUtility.
-			Debug.Log("Scene" + currentSceneNumber + ".prefab");
-			AssetDatabase.CopyAsset("Assets/Resources/Scenes/Scene" + currentSceneNumber + ".prefab", "Assets/Resources/Scenes/Scene" + newSceneNumber + ".prefab");
-			AssetDatabase.Refresh();
-			//AssetDatabase.CreateAsset(clonedAsset, "Assets/Resources/Scenes/Scene" + newSceneNumber);
-		}
-		catch(Exception e)
-		{
-			EditorUtility.DisplayDialog("Error", "Error cloning asset", "Ok");
-			return;
-		}
-		//AssetDatabase.CopyAsset("Resources/Scenes/Scene" + currentSceneNumber, "Resources/Scenes/Scene" + newSceneNumber);
+		Debug.Log("Scene" + currentSceneNumber + ".prefab");
+		AssetDatabase.CopyAsset("Assets/Resources/Scenes/Scene" + currentSceneNumber + ".prefab", "Assets/Resources/Scenes/Scene" + newSceneNumber + ".prefab");
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
-		/*
-		//FileUtil.CopyFileOrDirectory("Resources/Scenes/Scene" + currentSceneNumber + ".prefab", "Resources/Scenes/Scene" + newSceneNumber + ".prefab");
 		GameObject newScene = Resources.Load<GameObject>("Scenes/Scene" + newSceneNumber);
 		newScene.GetComponent<SceneNumber>().sceneNumber = newSceneNumber;
 		GameObject currentScene = GameObject.Find("Scene" + currentSceneNumber);
-		Destroy(currentScene);
+		if(currentScene == null)
+		{
+			currentScene = GameObject.Find("Scene" + currentSceneNumber + "(Clone)");
+		};
+		DestroyImmediate(currentScene);
 		Instantiate(newScene);
 		EditorUtility.SetDirty(sceneHolder);
-		*/
+		linkChainLength = linkChain.Count;
+		AssetDatabase.SaveAssets();
+		AssetDatabase.Refresh();
+	}
+
+	public void ResetLinkChain()
+	{
+		linkChain.Clear();
+		linkChainLength = linkChain.Count;
 	}
 	#endregion
 

@@ -8,7 +8,7 @@ public class SceneHolder: ScriptableObject
 {
 	#region Variables
 	public int lastSceneNumber = 0;
-	public List<GameObject> sceneList;
+	//public List<GameObject> sceneList;
 	#endregion
 
 	#region PublicMethods
@@ -21,6 +21,7 @@ public class SceneHolder: ScriptableObject
 	#endregion
 
 	#region PrivateMethods
+	/*
 	private int SearchForHighestSceneNumber()
 	{
 		int highestSceneNumber = 0;
@@ -34,5 +35,6 @@ public class SceneHolder: ScriptableObject
 		}
 		return highestSceneNumber;
 	}
+	*/
 	#endregion
 }
