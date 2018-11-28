@@ -15,10 +15,9 @@ public class SceneControl_Editor : Editor
 
 	public override void OnInspectorGUI()
 	{
-		sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
 		if(refreshSceneData)
 		{
-			
+			sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
 			currentSceneNumber = FindObjectOfType<SceneNumber>().sceneNumber;
 			if(sceneLinkChain.linkChain.ContainsKey(currentSceneNumber))
 			{
@@ -28,9 +27,11 @@ public class SceneControl_Editor : Editor
 			Debug.Log("Previous" + currentSceneLinks.previousScene);
 			refreshSceneData = false;
 		}
-
+		GUILayout.BeginVertical();
 		base.OnInspectorGUI();
 		GUILayout.BeginHorizontal();
+		//For initial scene
+
 		if(currentSceneNumber == 0 && currentSceneLinks.nextScene != 0)
 		{
 			if(GUILayout.Button("Next Scene [" + currentSceneLinks.nextScene + "]"))
@@ -39,6 +40,7 @@ public class SceneControl_Editor : Editor
 				refreshSceneData = true;
 			}
 		}
+		//For every other scene
 		else if(currentSceneNumber != 0)
 		{
 			if(GUILayout.Button("Previous Scene[" + currentSceneLinks.previousScene + "]"))
@@ -55,6 +57,8 @@ public class SceneControl_Editor : Editor
 				}
 			}
 		}
+		GUILayout.EndHorizontal();
+		GUILayout.BeginVertical();
 		if(GUILayout.Button("New Scene"))
 		{
 			sceneLinkChain.CreateNewScene(currentSceneNumber);
@@ -72,7 +76,8 @@ public class SceneControl_Editor : Editor
 			currentSceneNumber = 0;
 			refreshSceneData = true;
 		}
+		GUILayout.EndVertical();
+		GUILayout.EndVertical();
 
-		GUILayout.EndHorizontal();
 	}
 }

@@ -10,19 +10,20 @@ public class SceneLinkChain : ScriptableObject {
 	#region Variables
 	public Dictionary<int, SceneLinks> linkChain = new Dictionary<int, SceneLinks>();
 	public int linkChainLength = 0;
+	public int lastSceneNumber = 0;
 	#endregion
 
 	#region PublicMethods
 	public void CreateNewScene(int currentSceneNumber)
 	{
-		SceneHolder sceneHolder = Resources.Load<SceneHolder>("SceneHolder");
-		int newSceneNumber = sceneHolder.GetNewSceneNumber();
+		int newSceneNumber = GetNewSceneNumber();
 		if(linkChain.Count == 0)
 		{
 			linkChain.Add(0, new SceneLinks());
 		}
 		SceneLinks currentSceneLinks = linkChain[currentSceneNumber];
 		currentSceneLinks.nextScene = newSceneNumber;
+		linkChain[currentSceneNumber] = currentSceneLinks;
 		SceneLinks newSceneLink = new SceneLinks();
 		newSceneLink.previousScene = currentSceneNumber;
 		linkChain.Add(newSceneNumber, newSceneLink);
@@ -35,8 +36,8 @@ public class SceneLinkChain : ScriptableObject {
 		GameObject currentScene = GameObject.Find("Scene" + currentSceneNumber);
 		DestroyImmediate(currentScene);
 		PrefabUtility.InstantiatePrefab(newScene);
-		EditorUtility.SetDirty(sceneHolder);
 		linkChainLength = linkChain.Count;
+		EditorUtility.SetDirty(Resources.Load<SceneLinkChain>("SceneLinkChain"));
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
 	}
@@ -47,7 +48,11 @@ public class SceneLinkChain : ScriptableObject {
 		PrefabUtility.InstantiatePrefab(Resources.Load<GameObject>("Scenes/Scene" + toSceneNumber));
 	}
 
-
+	public int GetNewSceneNumber()
+	{
+		lastSceneNumber++;
+		return lastSceneNumber;
+	}
 
 	public void ResetLinkChain()
 	{
