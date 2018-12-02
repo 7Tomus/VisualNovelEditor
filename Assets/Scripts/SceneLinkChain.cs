@@ -5,6 +5,7 @@ using UnityEditor;
 using System;
 
 [CreateAssetMenu(fileName = "SceneLinkChain")]
+[Serializable]
 public class SceneLinkChain : ScriptableObject {
 
 	#region Variables
@@ -56,6 +57,7 @@ public class SceneLinkChain : ScriptableObject {
 	{
 		linkChain.Clear();
 		linkChainLength = linkChain.Count;
+		lastSceneNumber = 0;
 	}
 	#endregion
 

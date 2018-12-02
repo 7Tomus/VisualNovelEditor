@@ -96,6 +96,13 @@ public class SceneControl_Editor : Editor
 			currentSceneNumber = 0;
 			refreshSceneData = true;
 		}
+		if(GUILayout.Button("GetInfo"))
+		{
+			Debug.Log("lastSceneNumber" + sceneLinkChain.lastSceneNumber);
+			Debug.Log("linkChainLength" + sceneLinkChain.linkChain.Count);
+			refreshSceneData = true;
+		}
+
 		GUILayout.EndVertical();
 		GUILayout.EndVertical();
 
