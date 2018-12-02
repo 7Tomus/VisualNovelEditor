@@ -19,43 +19,63 @@ public class SceneControl_Editor : Editor
 		{
 			sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
 			currentSceneNumber = FindObjectOfType<SceneNumber>().sceneNumber;
-			if(sceneLinkChain.linkChain.ContainsKey(currentSceneNumber))
+			if(currentSceneNumber == 0 && !sceneLinkChain.linkChain.ContainsKey(currentSceneNumber))
+			{
+				SceneLinks initialSceneLinksForScene0 = new SceneLinks();
+				initialSceneLinksForScene0.nextScenes = new List<int>();
+				initialSceneLinksForScene0.previousScenes = new List<int>();
+				sceneLinkChain.linkChain.Add(0, initialSceneLinksForScene0);
+			}
+				if(sceneLinkChain.linkChain.ContainsKey(currentSceneNumber))
 			{
 				currentSceneLinks = sceneLinkChain.linkChain[currentSceneNumber];
 			}
-			Debug.Log("Next" + currentSceneLinks.nextScene);
-			Debug.Log("Previous" + currentSceneLinks.previousScene);
 			refreshSceneData = false;
 		}
 		GUILayout.BeginVertical();
 		base.OnInspectorGUI();
 		GUILayout.BeginHorizontal();
-		//For initial scene
 
-		if(currentSceneNumber == 0 && currentSceneLinks.nextScene != 0)
+		//For initial scene
+		if(currentSceneNumber == 0 && currentSceneLinks.nextScenes.Count != 0)
 		{
-			if(GUILayout.Button("Next Scene [" + currentSceneLinks.nextScene + "]"))
+			GUILayout.BeginVertical();
+			for(int i = 0; i< currentSceneLinks.nextScenes.Count; i++)
 			{
-				sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScene);
-				refreshSceneData = true;
+				if(GUILayout.Button("Next Scene [" + currentSceneLinks.nextScenes[i] + "]"))
+				{
+					sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScenes[i]);
+					refreshSceneData = true;
+				}
 			}
+			GUILayout.EndVertical();
 		}
 		//For every other scene
 		else if(currentSceneNumber != 0)
 		{
-			if(GUILayout.Button("Previous Scene[" + currentSceneLinks.previousScene + "]"))
+			GUILayout.BeginVertical();
+			for(int i = 0; i < currentSceneLinks.previousScenes.Count; i++)
 			{
-				sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.previousScene);
-				refreshSceneData = true;
-			}
-			if(currentSceneLinks.nextScene != 0)
-			{
-				if(GUILayout.Button("Next Scene[" + currentSceneLinks.nextScene + "]"))
+				if(GUILayout.Button("Previous Scene[" + currentSceneLinks.previousScenes[i] + "]"))
 				{
-					sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScene);
+					sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.previousScenes[i]);
 					refreshSceneData = true;
 				}
 			}
+			GUILayout.EndVertical();
+			GUILayout.BeginVertical();
+			for(int i = 0; i < currentSceneLinks.nextScenes.Count; i++)
+			{
+				if(currentSceneLinks.nextScenes.Count != 0)
+				{
+					if(GUILayout.Button("Next Scene[" + currentSceneLinks.nextScenes[i] + "]"))
+					{
+						sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScenes[i]);
+						refreshSceneData = true;
+					}
+				}
+			}
+			GUILayout.EndVertical();
 		}
 		GUILayout.EndHorizontal();
 		GUILayout.BeginVertical();

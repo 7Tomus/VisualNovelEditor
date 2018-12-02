@@ -17,15 +17,13 @@ public class SceneLinkChain : ScriptableObject {
 	public void CreateNewScene(int currentSceneNumber)
 	{
 		int newSceneNumber = GetNewSceneNumber();
-		if(linkChain.Count == 0)
-		{
-			linkChain.Add(0, new SceneLinks());
-		}
 		SceneLinks currentSceneLinks = linkChain[currentSceneNumber];
-		currentSceneLinks.nextScene = newSceneNumber;
+		currentSceneLinks.nextScenes.Add(newSceneNumber);
 		linkChain[currentSceneNumber] = currentSceneLinks;
 		SceneLinks newSceneLink = new SceneLinks();
-		newSceneLink.previousScene = currentSceneNumber;
+		newSceneLink.nextScenes = new List<int>();
+		newSceneLink.previousScenes = new List<int>();
+		newSceneLink.previousScenes.Add(currentSceneNumber);
 		linkChain.Add(newSceneNumber, newSceneLink);
 
 		AssetDatabase.CopyAsset("Assets/Resources/Scenes/Scene" + currentSceneNumber + ".prefab", "Assets/Resources/Scenes/Scene" + newSceneNumber + ".prefab");
@@ -62,4 +60,11 @@ public class SceneLinkChain : ScriptableObject {
 	#endregion
 
 
+}
+
+[Serializable]
+public struct SceneLinks
+{
+	public List<int> previousScenes;
+	public List<int> nextScenes;
 }
