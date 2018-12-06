@@ -8,8 +8,7 @@ public class SceneControl_Editor : Editor
 {
 	#region Variables
 	private bool refreshSceneData = true;
-	private int currentSceneNumber;
-	private SceneLinks currentSceneLinks = new SceneLinks();
+	private SceneData sceneData;
 	SceneLinkChain sceneLinkChain;
 	#endregion
 
@@ -18,17 +17,11 @@ public class SceneControl_Editor : Editor
 		if(refreshSceneData)
 		{
 			sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
-			currentSceneNumber = FindObjectOfType<SceneNumber>().sceneNumber;
-			if(currentSceneNumber == 0 && !sceneLinkChain.linkChain.ContainsKey(currentSceneNumber))
+			sceneData = FindObjectOfType<SceneData>();
+			if(sceneData.sceneNumber == 0 && (sceneData.nextScenes == null || sceneData.previousScenes == null))
 			{
-				SceneLinks initialSceneLinksForScene0 = new SceneLinks();
-				initialSceneLinksForScene0.nextScenes = new List<int>();
-				initialSceneLinksForScene0.previousScenes = new List<int>();
-				sceneLinkChain.linkChain.Add(0, initialSceneLinksForScene0);
-			}
-				if(sceneLinkChain.linkChain.ContainsKey(currentSceneNumber))
-			{
-				currentSceneLinks = sceneLinkChain.linkChain[currentSceneNumber];
+				sceneData.nextScenes = new List<int>();
+				sceneData.previousScenes = new List<int>();
 			}
 			refreshSceneData = false;
 		}
@@ -37,40 +30,40 @@ public class SceneControl_Editor : Editor
 		GUILayout.BeginHorizontal();
 
 		//For initial scene
-		if(currentSceneNumber == 0 && currentSceneLinks.nextScenes.Count != 0)
+		if(sceneData.sceneNumber == 0 && sceneData.nextScenes.Count != 0)
 		{
 			GUILayout.BeginVertical();
-			for(int i = 0; i< currentSceneLinks.nextScenes.Count; i++)
+			for(int i = 0; i< sceneData.nextScenes.Count; i++)
 			{
-				if(GUILayout.Button("Next Scene [" + currentSceneLinks.nextScenes[i] + "]"))
+				if(GUILayout.Button("Next Scene [" + sceneData.nextScenes[i] + "]"))
 				{
-					sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScenes[i]);
+					sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.nextScenes[i]);
 					refreshSceneData = true;
 				}
 			}
 			GUILayout.EndVertical();
 		}
 		//For every other scene
-		else if(currentSceneNumber != 0)
+		else if(sceneData.sceneNumber != 0)
 		{
 			GUILayout.BeginVertical();
-			for(int i = 0; i < currentSceneLinks.previousScenes.Count; i++)
+			for(int i = 0; i < sceneData.previousScenes.Count; i++)
 			{
-				if(GUILayout.Button("Previous Scene[" + currentSceneLinks.previousScenes[i] + "]"))
+				if(GUILayout.Button("Previous Scene[" + sceneData.previousScenes[i] + "]"))
 				{
-					sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.previousScenes[i]);
+					sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.previousScenes[i]);
 					refreshSceneData = true;
 				}
 			}
 			GUILayout.EndVertical();
 			GUILayout.BeginVertical();
-			for(int i = 0; i < currentSceneLinks.nextScenes.Count; i++)
+			for(int i = 0; i < sceneData.nextScenes.Count; i++)
 			{
-				if(currentSceneLinks.nextScenes.Count != 0)
+				if(sceneData.nextScenes.Count != 0)
 				{
-					if(GUILayout.Button("Next Scene[" + currentSceneLinks.nextScenes[i] + "]"))
+					if(GUILayout.Button("Next Scene[" + sceneData.nextScenes[i] + "]"))
 					{
-						sceneLinkChain.GoToScene(currentSceneNumber, currentSceneLinks.nextScenes[i]);
+						sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.nextScenes[i]);
 						refreshSceneData = true;
 					}
 				}
@@ -81,26 +74,11 @@ public class SceneControl_Editor : Editor
 		GUILayout.BeginVertical();
 		if(GUILayout.Button("New Scene"))
 		{
-			sceneLinkChain.CreateNewScene(currentSceneNumber);
+			sceneLinkChain.CreateNewScene(sceneData);
 			EditorUtility.SetDirty(sceneLinkChain);
 			AssetDatabase.SaveAssets();
 			AssetDatabase.Refresh();
 			refreshSceneData = true;			
-		}
-		if(GUILayout.Button("ResetAll"))
-		{
-			sceneLinkChain.ResetLinkChain();
-			EditorUtility.SetDirty(sceneLinkChain);
-			AssetDatabase.SaveAssets();
-			AssetDatabase.Refresh();
-			currentSceneNumber = 0;
-			refreshSceneData = true;
-		}
-		if(GUILayout.Button("GetInfo"))
-		{
-			Debug.Log("lastSceneNumber" + sceneLinkChain.lastSceneNumber);
-			Debug.Log("linkChainLength" + sceneLinkChain.linkChain.Count);
-			refreshSceneData = true;
 		}
 
 		GUILayout.EndVertical();

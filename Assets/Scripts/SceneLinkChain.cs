@@ -9,34 +9,33 @@ using System;
 public class SceneLinkChain : ScriptableObject {
 
 	#region Variables
-	public Dictionary<int, SceneLinks> linkChain = new Dictionary<int, SceneLinks>();
-	public int linkChainLength = 0;
 	public int lastSceneNumber = 0;
 	#endregion
 
 	#region PublicMethods
-	public void CreateNewScene(int currentSceneNumber)
+	public void CreateNewScene(SceneData currentSceneData)
 	{
 		int newSceneNumber = GetNewSceneNumber();
-		SceneLinks currentSceneLinks = linkChain[currentSceneNumber];
-		currentSceneLinks.nextScenes.Add(newSceneNumber);
-		linkChain[currentSceneNumber] = currentSceneLinks;
-		SceneLinks newSceneLink = new SceneLinks();
-		newSceneLink.nextScenes = new List<int>();
-		newSceneLink.previousScenes = new List<int>();
-		newSceneLink.previousScenes.Add(currentSceneNumber);
-		linkChain.Add(newSceneNumber, newSceneLink);
+		currentSceneData.nextScenes.Add(newSceneNumber);
+		SceneData newSceneData = new SceneData();
+		newSceneData.sceneNumber = newSceneNumber;
+		newSceneData.nextScenes = new List<int>();
+		newSceneData.previousScenes = new List<int>();
+		newSceneData.previousScenes.Add(currentSceneData.sceneNumber);
 
-		AssetDatabase.CopyAsset("Assets/Resources/Scenes/Scene" + currentSceneNumber + ".prefab", "Assets/Resources/Scenes/Scene" + newSceneNumber + ".prefab");
+		AssetDatabase.CopyAsset("Assets/Resources/Scenes/Scene" + currentSceneData.sceneNumber + ".prefab", "Assets/Resources/Scenes/Scene" + newSceneNumber + ".prefab");
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
 		GameObject newScene = Resources.Load<GameObject>("Scenes/Scene" + newSceneNumber);
-		newScene.GetComponent<SceneNumber>().sceneNumber = newSceneNumber;
-		GameObject currentScene = GameObject.Find("Scene" + currentSceneNumber);
+		SceneData sceneDataComponent = newScene.GetComponent<SceneData>();
+		sceneDataComponent.sceneNumber = newSceneData.sceneNumber;
+		sceneDataComponent.nextScenes = newSceneData.nextScenes;
+		sceneDataComponent.previousScenes = newSceneData.previousScenes;
+		GameObject currentScene = GameObject.Find("Scene" + currentSceneData.sceneNumber);
+		PrefabUtility.SavePrefabAsset(currentScene);
 		DestroyImmediate(currentScene);
 		PrefabUtility.InstantiatePrefab(newScene);
-		linkChainLength = linkChain.Count;
-		EditorUtility.SetDirty(Resources.Load<SceneLinkChain>("SceneLinkChain"));
+		//PrefabUtility.SavePrefabAsset(newScene);
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
 	}
@@ -51,13 +50,6 @@ public class SceneLinkChain : ScriptableObject {
 	{
 		lastSceneNumber++;
 		return lastSceneNumber;
-	}
-
-	public void ResetLinkChain()
-	{
-		linkChain.Clear();
-		linkChainLength = linkChain.Count;
-		lastSceneNumber = 0;
 	}
 	#endregion
 
