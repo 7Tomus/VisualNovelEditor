@@ -4,6 +4,6 @@ TODO:
     - - [x] without branching
     - - [x] with branching
     - - [ ] node map for ez navigation
-3. - [ ] Core scene visuals
+3. - [ ] Core scene visuals - WIP
 4. - [ ] Twitch chat bot
 
