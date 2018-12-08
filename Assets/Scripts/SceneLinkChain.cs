@@ -6,7 +6,8 @@ using System;
 
 [CreateAssetMenu(fileName = "SceneLinkChain")]
 [Serializable]
-public class SceneLinkChain : ScriptableObject {
+public class SceneLinkChain : ScriptableObject
+{
 
 	#region Variables
 	public int lastSceneNumber = 0;
@@ -17,25 +18,25 @@ public class SceneLinkChain : ScriptableObject {
 	{
 		int newSceneNumber = GetNewSceneNumber();
 		currentSceneData.nextScenes.Add(newSceneNumber);
-		SceneData newSceneData = new SceneData();
-		newSceneData.sceneNumber = newSceneNumber;
-		newSceneData.nextScenes = new List<int>();
-		newSceneData.previousScenes = new List<int>();
-		newSceneData.previousScenes.Add(currentSceneData.sceneNumber);
+		List<int> nextScenes = new List<int>();
+		List<int> previousScenes = new List<int>();
+		previousScenes.Add(currentSceneData.sceneNumber);
 
 		AssetDatabase.CopyAsset("Assets/Resources/Scenes/Scene" + currentSceneData.sceneNumber + ".prefab", "Assets/Resources/Scenes/Scene" + newSceneNumber + ".prefab");
+		/*
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
+		*/
 		GameObject newScene = Resources.Load<GameObject>("Scenes/Scene" + newSceneNumber);
 		SceneData sceneDataComponent = newScene.GetComponent<SceneData>();
-		sceneDataComponent.sceneNumber = newSceneData.sceneNumber;
-		sceneDataComponent.nextScenes = newSceneData.nextScenes;
-		sceneDataComponent.previousScenes = newSceneData.previousScenes;
+		sceneDataComponent.sceneNumber = newSceneNumber;
+		sceneDataComponent.nextScenes = nextScenes;
+		sceneDataComponent.previousScenes = previousScenes;
 		GameObject currentScene = GameObject.Find("Scene" + currentSceneData.sceneNumber);
-		PrefabUtility.SavePrefabAsset(currentScene);
+		PrefabUtility.ApplyPrefabInstance(currentScene, InteractionMode.AutomatedAction);
 		DestroyImmediate(currentScene);
 		PrefabUtility.InstantiatePrefab(newScene);
-		//PrefabUtility.SavePrefabAsset(newScene);
+		PrefabUtility.SavePrefabAsset(newScene);
 		AssetDatabase.SaveAssets();
 		AssetDatabase.Refresh();
 	}
@@ -52,13 +53,4 @@ public class SceneLinkChain : ScriptableObject {
 		return lastSceneNumber;
 	}
 	#endregion
-
-
-}
-
-[Serializable]
-public struct SceneLinks
-{
-	public List<int> previousScenes;
-	public List<int> nextScenes;
 }

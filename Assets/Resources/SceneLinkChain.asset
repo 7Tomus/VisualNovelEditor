@@ -12,4 +12,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 72990030986ffce4f81f8706f41a69a1, type: 3}
   m_Name: SceneLinkChain
   m_EditorClassIdentifier: 
-  lastSceneNumber: 0
+  lastSceneNumber: 4
