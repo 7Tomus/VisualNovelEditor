@@ -241,6 +241,11 @@ PrefabInstance:
       propertyPath: m_isInputParsingRequired
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 1788813470, guid: bd591ea0468b2194999d3514246791ca, type: 3}
+      propertyPath: paragraphs.Array.data[1]
+      value: Biodiesel copper mug master cleanse aesthetic roof party williamsburg.
+        Ennui fixie meh man braid raclette actually.
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: bd591ea0468b2194999d3514246791ca, type: 3}
 --- !u!1 &1678788645
