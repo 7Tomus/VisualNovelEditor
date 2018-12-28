@@ -7,20 +7,22 @@ public class UITextWriter : MonoBehaviour
 {
 
 	#region Variables
-	public float textSpeed = 0.05f;
-	[Multiline] public string[] paragraphs;
-	private TextMeshProUGUI mainText;
-	private string originalText;
-	private int currentParagraph = 0;
-	private IEnumerator writeCoroutine;
-	int currentChar = 0;
-	bool isWriting;
+				public	float			textSpeed = 0.05f;
+	[Multiline] public	string[]		paragraphs;
+				private TextMeshProUGUI mainText;
+				private string			originalText;
+				private int				currentParagraph = 0;
+				private IEnumerator		writeCoroutine;
+				private int				currentChar = 0;
+				private bool			isWriting;
+				private SceneData		currentSceneData;
 	#endregion
 
 	private void Awake()
 	{
 		mainText = GetComponent<TextMeshProUGUI>();
 		writeCoroutine = WriteText();
+		currentSceneData = gameObject.GetComponentInParent<SceneData>();
 	}
 
 	void Start()
@@ -51,13 +53,30 @@ public class UITextWriter : MonoBehaviour
 				writeCoroutine = null;
 				writeCoroutine = WriteText();
 				StartCoroutine(writeCoroutine);
-			}			
+			}
+			else
+			{
+				SceneLinkChain sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
+				if(currentSceneData.nextScenes.Count == 1)
+				{
+					sceneLinkChain.GoToSceneIngame(currentSceneData.sceneNumber, currentSceneData.nextScenes[0]);
+				}
+				else
+				{
+					//TODO multiple choice
+				}
+			}
 		}
 		else
 		{
 			isWriting = false;
 			mainText.text = originalText;
 		}
+	}
+
+	private void GoToNextScene()
+	{
+
 	}
 	#endregion
 
