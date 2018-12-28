@@ -33,6 +33,7 @@ RectTransform:
   - {fileID: 1507878630}
   - {fileID: 1796279617}
   - {fileID: 605525528}
+  - {fileID: 1912983942}
   m_Father: {fileID: 4395994584271222}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -343,7 +344,6 @@ GameObject:
   - component: {fileID: 1788813469}
   - component: {fileID: 1788813472}
   - component: {fileID: 1788813471}
-  - component: {fileID: 1788813470}
   m_Layer: 5
   m_Name: Text
   m_TagString: Untagged
@@ -493,30 +493,6 @@ MonoBehaviour:
   - {fileID: 0}
   m_baseMaterial: {fileID: 0}
   m_maskOffset: {x: 0, y: 0, z: 0, w: 0}
---- !u!114 &1788813470
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1788813468}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5286020550956504a945ca9f32e47a1f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  textSpeed: 0.05
-  paragraphs:
-  - You probably haven't heard of them green juice sustainable chillwave subway tile,
-    try-hard vexillologist neutra chia activated charcoal. Meggings glossier fam affogato
-    meh bitters. Man braid selvage tofu poutine raw denim freegan humblebrag kombucha
-    tacos aesthetic vinyl put a bird on it pok pok.
-  - Biodiesel copper mug master cleanse aesthetic roof party williamsburg. Ennui fixie
-    meh man braid raclette actually.
-  - Next level paleo waistcoat asymmetrical. 8-bit truffaut direct trade vexillologist
-    tousled. Shoreditch unicorn irony, quinoa small batch fam plaid selfies. Knausgaard
-    fashion axe banjo shaman flannel fixie selvage shabby chic flexitarian bespoke
-    bicycle rights blog freegan wolf prism.
 --- !u!1 &1796279616
 GameObject:
   m_ObjectHideFlags: 0
@@ -591,6 +567,80 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+--- !u!1 &1912983941
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1912983942}
+  - component: {fileID: 1912983944}
+  - component: {fileID: 1912983943}
+  m_Layer: 5
+  m_Name: SceneTransition
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1912983942
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912983941}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 0.9998239, y: 0.9998239, z: 0.9998239}
+  m_Children: []
+  m_Father: {fileID: 136050379}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1912983944
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912983941}
+  m_CullTransparentMesh: 0
+--- !u!114 &1912983943
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1912983941}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 0, g: 0, b: 0, a: 0}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
+      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
+  m_Sprite: {fileID: 0}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
 --- !u!1 &1964416478847132
 GameObject:
   m_ObjectHideFlags: 0
@@ -601,6 +651,8 @@ GameObject:
   m_Component:
   - component: {fileID: 4395994584271222}
   - component: {fileID: 7651335923221017626}
+  - component: {fileID: 711790653}
+  - component: {fileID: 711790654}
   m_Layer: 0
   m_Name: Scene0
   m_TagString: Untagged
@@ -639,3 +691,41 @@ MonoBehaviour:
   sceneNumber: 0
   nextScenes: 01000000
   previousScenes: 
+--- !u!114 &711790653
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964416478847132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 95982a405cc921c44af793b46fa635f6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  blackImage: {fileID: 1912983943}
+--- !u!114 &711790654
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1964416478847132}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5286020550956504a945ca9f32e47a1f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  textSpeed: 0.05
+  paragraphs:
+  - You probably haven't heard of them green juice sustainable chillwave subway tile,
+    try-hard vexillologist neutra chia activated charcoal. Meggings glossier fam affogato
+    meh bitters. Man braid selvage tofu poutine raw denim freegan humblebrag kombucha
+    tacos aesthetic vinyl put a bird on it pok pok.
+  - Biodiesel copper mug master cleanse aesthetic roof party williamsburg. Ennui fixie
+    meh man braid raclette actually.
+  - Next level paleo waistcoat asymmetrical. 8-bit truffaut direct trade vexillologist
+    tousled. Shoreditch unicorn irony, quinoa small batch fam plaid selfies. Knausgaard
+    fashion axe banjo shaman flannel fixie selvage shabby chic flexitarian bespoke
+    bicycle rights blog freegan wolf prism.
+  mainText: {fileID: 1788813471}

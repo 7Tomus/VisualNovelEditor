@@ -2,6 +2,8 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
+using UnityEngine.UI;
+using System.Threading.Tasks;
 
 public class UITextWriter : MonoBehaviour
 {
@@ -9,25 +11,28 @@ public class UITextWriter : MonoBehaviour
 	#region Variables
 				public	float			textSpeed = 0.05f;
 	[Multiline] public	string[]		paragraphs;
-				private TextMeshProUGUI mainText;
+				public	TextMeshProUGUI mainText;
 				private string			originalText;
 				private int				currentParagraph = 0;
 				private IEnumerator		writeCoroutine;
 				private int				currentChar = 0;
 				private bool			isWriting;
 				private SceneData		currentSceneData;
+				private SceneLinkChain	sceneLinkChain;
+				private UISceneTransition sceneTransition;
 	#endregion
 
 	private void Awake()
 	{
-		mainText = GetComponent<TextMeshProUGUI>();
+		sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
 		writeCoroutine = WriteText();
-		currentSceneData = gameObject.GetComponentInParent<SceneData>();
+		currentSceneData = GetComponent<SceneData>();
+		sceneTransition = GetComponent<UISceneTransition>();
 	}
 
 	void Start()
     {
-		NextText();
+		SceneTransitionStart();
 	}
 
 	private void Update()
@@ -39,6 +44,19 @@ public class UITextWriter : MonoBehaviour
 	}
 
 	#region Methods
+
+	private async Task SceneTransitionStart()
+	{
+		await sceneTransition.SceneTransition(TransitionType.fadeIn);
+		NextText();
+	}
+
+	private async Task SceneTransitionNextScene()
+	{
+		await sceneTransition.SceneTransition(TransitionType.fadeOut);
+		sceneLinkChain.GoToScene(currentSceneData.sceneNumber, currentSceneData.nextScenes[0]);
+	}
+
 	private void NextText()
 	{
 		StopCoroutine(writeCoroutine);
@@ -56,10 +74,9 @@ public class UITextWriter : MonoBehaviour
 			}
 			else
 			{
-				SceneLinkChain sceneLinkChain = Resources.Load<SceneLinkChain>("SceneLinkChain");
 				if(currentSceneData.nextScenes.Count == 1)
 				{
-					sceneLinkChain.GoToSceneIngame(currentSceneData.sceneNumber, currentSceneData.nextScenes[0]);
+					SceneTransitionNextScene();
 				}
 				else
 				{
@@ -72,11 +89,6 @@ public class UITextWriter : MonoBehaviour
 			isWriting = false;
 			mainText.text = originalText;
 		}
-	}
-
-	private void GoToNextScene()
-	{
-
 	}
 	#endregion
 
