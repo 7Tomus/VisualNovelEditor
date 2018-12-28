@@ -13,7 +13,8 @@ public class UITextWriter : MonoBehaviour
 	private string originalText;
 	private int currentParagraph = 0;
 	private IEnumerator writeCoroutine;
-	int currentChar = 0; 
+	int currentChar = 0;
+	bool isWriting;
 	#endregion
 
 	private void Awake()
@@ -33,25 +34,29 @@ public class UITextWriter : MonoBehaviour
 		{
 			NextText();
 		}
-		if(Input.GetKeyDown(KeyCode.K))
-		{
-			StopCoroutine(writeCoroutine);
-		}
 	}
 
 	#region Methods
 	private void NextText()
 	{
 		StopCoroutine(writeCoroutine);
-		writeCoroutine = null;
-		writeCoroutine = WriteText();
-		currentChar = 0;
-		if(paragraphs.Length > currentParagraph)
+		if(!isWriting)
 		{
-			originalText = paragraphs[currentParagraph];
-			mainText.text = "";
-			currentParagraph++;
-			StartCoroutine(writeCoroutine);
+			if(paragraphs.Length > currentParagraph)
+			{
+				currentChar = 0;
+				originalText = paragraphs[currentParagraph];
+				mainText.text = "";
+				currentParagraph++;
+				writeCoroutine = null;
+				writeCoroutine = WriteText();
+				StartCoroutine(writeCoroutine);
+			}			
+		}
+		else
+		{
+			isWriting = false;
+			mainText.text = originalText;
 		}
 	}
 	#endregion
@@ -59,12 +64,13 @@ public class UITextWriter : MonoBehaviour
 	#region Coroutines
 	IEnumerator WriteText()
 	{
-		Debug.Log("write coroutine started");
+		isWriting = true;
 		for(currentChar = 0; currentChar < originalText.Length; currentChar++)
 		{
 			yield return new WaitForSeconds(textSpeed);
 			mainText.text = mainText.text + originalText[currentChar];
 		}
+		isWriting = false;
 	}
 	#endregion
 }
