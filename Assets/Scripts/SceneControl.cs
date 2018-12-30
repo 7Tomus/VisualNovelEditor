@@ -14,6 +14,7 @@ public class SceneControl_Editor : Editor
 	private bool refreshSceneData = true;
 	private SceneData sceneData;
 	SceneLinkChain sceneLinkChain;
+	public bool saveOnSceneChange = false;
 	#endregion
 
 	public override void OnInspectorGUI()
@@ -41,7 +42,7 @@ public class SceneControl_Editor : Editor
 			{
 				if(GUILayout.Button("Next Scene [" + sceneData.nextScenes[i] + "]"))
 				{
-					sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.nextScenes[i]);
+					sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.nextScenes[i], saveOnSceneChange);
 					refreshSceneData = true;
 				}
 			}
@@ -55,7 +56,7 @@ public class SceneControl_Editor : Editor
 			{
 				if(GUILayout.Button("Previous Scene[" + sceneData.previousScenes[i] + "]"))
 				{
-					sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.previousScenes[i]);
+					sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.previousScenes[i], saveOnSceneChange);
 					refreshSceneData = true;
 				}
 			}
@@ -67,7 +68,7 @@ public class SceneControl_Editor : Editor
 				{
 					if(GUILayout.Button("Next Scene[" + sceneData.nextScenes[i] + "]"))
 					{
-						sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.nextScenes[i]);
+						sceneLinkChain.GoToScene(sceneData.sceneNumber, sceneData.nextScenes[i], saveOnSceneChange);
 						refreshSceneData = true;
 					}
 				}
@@ -85,6 +86,7 @@ public class SceneControl_Editor : Editor
 			refreshSceneData = true;
 		}
 		GUILayout.EndVertical();
+		saveOnSceneChange = GUILayout.Toggle(saveOnSceneChange, "Save on scene change");
 		GUILayout.EndVertical();
 	}
 }

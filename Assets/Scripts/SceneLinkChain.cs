@@ -41,9 +41,14 @@ public class SceneLinkChain : ScriptableObject
 		AssetDatabase.Refresh();
 	}
 
-	public void GoToScene(int currentSceneNumber, int toSceneNumber)
+	public void GoToScene(int currentSceneNumber, int toSceneNumber, bool save)
 	{
-		DestroyImmediate(GameObject.Find("Scene" + currentSceneNumber));
+		GameObject currentScene = GameObject.Find("Scene" + currentSceneNumber);
+		if(save)
+		{
+			PrefabUtility.ApplyPrefabInstance(currentScene, InteractionMode.AutomatedAction);
+		}
+		DestroyImmediate(currentScene);
 		PrefabUtility.InstantiatePrefab(Resources.Load<GameObject>("Scenes/Scene" + toSceneNumber));
 	}
 

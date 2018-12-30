@@ -54,7 +54,7 @@ public class UITextWriter : MonoBehaviour
 	private async Task SceneTransitionNextScene()
 	{
 		await sceneTransition.SceneTransition(TransitionType.fadeOut);
-		sceneLinkChain.GoToScene(currentSceneData.sceneNumber, currentSceneData.nextScenes[0]);
+		sceneLinkChain.GoToSceneIngame(currentSceneData.sceneNumber, currentSceneData.nextScenes[0]);
 	}
 
 	private void NextText()
