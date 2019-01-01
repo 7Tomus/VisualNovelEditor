@@ -13,7 +13,7 @@ public class UISceneTransition : MonoBehaviour
 
 	private void Awake()
 	{
-		blackImage.enabled = true;
+		blackImage.gameObject.SetActive(true);
 	}
 
 	#region Methods
